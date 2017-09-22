@@ -11,7 +11,7 @@ abstract class Model
 
 		if ($dbConfig) {
 			$this->db = new \PDO(
-				'mysql:host=localhost;dbname='.$dbConfig['db_name'].';charset=UTF8',
+				'mysql:host='.$dbConfig['db_host'].';dbname='.$dbConfig['db_name'].';charset=UTF8',
 				$dbConfig['db_user'],
 				$dbConfig['db_password']
 			);
