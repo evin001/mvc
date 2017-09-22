@@ -1,13 +1,23 @@
 .wrap {
 	max-width: 800px;
 }
+
+.user-panel {
+	background-color: #F5F5F5;
+	padding: 5px 0;
+}
+
 .complete_yes {
 	color: #8bc34a
 }
 .complete_no {
 	color: #d32f2f
 }
+
 .ptb_small {
 	padding-top: 10px;
 	padding-bottom: 10px;
+}
+.fclear {
+	float: none !important;
 }

@@ -2,6 +2,7 @@
 namespace Models;
 
 use Core\Model;
+use Helpers\Validate;
 
 class ModelTasks extends Model
 {
@@ -81,7 +82,7 @@ class ModelTasks extends Model
 			return;
 		}
 
-		$this->checkImageType($image['tmp_name'], $imageType);
+		Validate::checkImageType($image['tmp_name'], $imageType);
 		list($width, $height, $newWidth, $newHeight) = $this->getRatioSize($image['tmp_name']);
 
 		$sourceImage = $this->createImage($image['tmp_name'], $imageType);
@@ -156,40 +157,11 @@ class ModelTasks extends Model
 
 	private function validate(array $data)
 	{
-		$this->checkRequired($data, 'name', 'Имя не заполнено.');
+		Validate::checkRequired($data, 'name', 'Имя не заполнено.');
 
-		$this->checkRequired($data, 'email', 'Email не заполнен.');
-		$this->checkEmail($data['email']);
+		Validate::checkRequired($data, 'email', 'Email не заполнен.');
+		Validate::checkEmail($data['email']);
 
-		$this->checkRequired($data, 'text', 'Текст задачи не заполнен.');
-	}
-
-	private function checkImageType($imageFile, &$imageType = null)
-	{
-		$imageType = exif_imagetype($imageFile);
-
-		if (!in_array($imageType, [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG])) {
-			throw new \Exception('Некорректный формат изображения.');
-		}
-
-		return true;
-	}
-
-	private function checkRequired(array $data, string $field, string $message)
-	{
-		if ( !isset($data[$field]) || empty($data[$field]) ) {
-			throw new \Exception($message);
-		}
-
-		return true;
-	}
-
-	private function checkEmail(string $email)
-	{
-		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			throw new \Exception('Некорректный email адрес.');
-		}
-
-		return true;
+		Validate::checkRequired($data, 'text', 'Текст задачи не заполнен.');
 	}
 }

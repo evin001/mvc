@@ -58,4 +58,9 @@ class Route
 
 		header('Location:'.$host);
 	}
+
+	static function isPost()
+	{
+		return $_SERVER['REQUEST_METHOD'] == 'POST';
+	}
 }

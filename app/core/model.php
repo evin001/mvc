@@ -43,9 +43,12 @@ abstract class Model
 	 * @param int    $offset Смещение.
 	 * @param string $order  Поле по которому нужно сортировать.
 	 * @param string $direct Направление сортировки.
+	 *
+	 * @return array|null Массив с данными.
 	 */
 	public function getData($limit = 3, $offset = 0, $order = '', $direct = 'desc')
 	{
+		return null;
 	}
 
 	/**

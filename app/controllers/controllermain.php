@@ -26,8 +26,10 @@ class ControllerMain extends Controller
 			$direct = ($direct == 'desc') ? 'asc' : 'desc';
 		}
 
-		Url::addVars('order', $order);
-		Url::addVars('direct', $direct);
+		if ( in_array($order, $this->model->getSortedField()) ) {
+			Url::addVars('order', $order);
+			Url::addVars('direct', $direct);
+		}
 
 		$offset = Paginator::NUMBER_ITEM_PAGE * $numberCurrentPage - Paginator::NUMBER_ITEM_PAGE;
 

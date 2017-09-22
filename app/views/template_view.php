@@ -8,6 +8,17 @@
 	<link rel="stylesheet" type="text/css" href="/css/style.css" />
 </head>
 <body>
+
+<div class="user-panel">
+	<div class="wrap center-block text-right">
+		<?php if (\Helpers\Auth::isLogin()): ?>
+			Привет, <?=\Helpers\Auth::getLogin();?> <a href="/login/logout">Выйти</a>
+		<?php else: ?>
+			<a href="/login/index">Авторизация</a>
+		<?php endif; ?>
+	</div>
+</div>
+
 <div class="container wrap">
 	<?php include "app/views/".$contentFile; ?>
 </div>

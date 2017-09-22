@@ -1,6 +1,8 @@
 <?php
 namespace Core;
 
+use Helpers\Auth;
+
 class Controller
 {
 	protected $model;
@@ -8,6 +10,8 @@ class Controller
 
 	public function __construct()
 	{
+		Auth::startSession();
+
 		$this->view = new View();
 	}
 

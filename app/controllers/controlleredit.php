@@ -17,7 +17,7 @@ class ControllerEdit extends Controller
 	{
 		$message = '';
 
-		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		if (Route::isPost()) {
 			$image = $_FILES['image'] ?? null;
 
 			try {
