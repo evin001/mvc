@@ -18,6 +18,9 @@
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
+.pb_medium {
+	padding-bottom: 20px;
+}
 .fclear {
 	float: none !important;
 }

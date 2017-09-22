@@ -4,6 +4,15 @@ $(document).ready(function () {
 		$('#previewEmail').text( $('#email').val() );
 		$('#previewText').text( $('#text').val() );
 
+		var complete = $('#complete');
+
+		if (complete.length) {
+			var previewStatusClass = (complete.prop('checked')) ?
+				'glyphicon glyphicon-ok complete_yes' : 'glyphicon glyphicon-remove complete_no';
+
+			$('#previewStatus').attr('class', previewStatusClass);
+		}
+
 		$('#previewModal').modal('show');
 	});
 

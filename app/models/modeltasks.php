@@ -9,25 +9,37 @@ class ModelTasks extends Model
 	const IMAGE_MAX_WIDTH = 320;
 	const IMAGE_MAX_HEIGHT = 240;
 
-	public function addTask(array $data, $image = null)
+	public function getTask(int $taskId)
 	{
-		$this->validate($data);
-		$this->filtered($data);
-
-		$imagePath = $this->saveImage($image);
-
-		$sql = 'INSERT INTO '
-			.$this->getTableName()
-			.'(name, email, text, image) VALUES(?, ?, ?, ?)';
+		$sql = 'SELECT id, name, email, text, image, complete FROM '.$this->getTableName().' WHERE id = ?';
 
 		$stmt = $this->db->prepare($sql);
+		$stmt->bindParam(1, $taskId, \PDO::PARAM_INT);
 
-		$stmt->bindParam(1, $data['name']);
-		$stmt->bindParam(2, $data['email']);
-		$stmt->bindParam(3, $data['text']);
-		$stmt->bindParam(4, $imagePath);
+		if ($stmt->execute()) {
+			return $stmt->fetch(\PDO::FETCH_ASSOC);
+		}
 
-		$stmt->execute();
+		return null;
+	}
+
+	public function updateTask(int $taskId, array $data, $image = null)
+	{
+		$sql = 'UPDATE '.$this->getTableName()
+			.' SET name=?, email=?, text=?, image=?, complete=? WHERE id='.$taskId;
+
+		$this->save($sql, $data, $image);
+
+		return true;
+	}
+
+	public function addTask(array $data, $image = null)
+	{
+		$sql = 'INSERT INTO '
+			.$this->getTableName()
+			.'(name, email, text, image, complete) VALUES(?, ?, ?, ?, ?)';
+
+		$this->save($sql, $data, $image);
 
 		return $this->db->lastInsertId();
 	}
@@ -37,7 +49,7 @@ class ModelTasks extends Model
 		/* @var \PDO $db */
 		$db = $this->db;
 
-		$sql = 'SELECT name, email, text, image, complete FROM tasks';
+		$sql = 'SELECT id, name, email, text, image, complete FROM '.$this->getTableName();
 
 		if ($order && in_array($order, $this->getSortedField())) {
 			if ( !in_array($direct, ['asc', 'desc']) ) {
@@ -74,6 +86,26 @@ class ModelTasks extends Model
 	protected function getTableName()
 	{
 		return 'tasks';
+	}
+
+	private function save($sql, $data, $image)
+	{
+		$this->validate($data);
+		$this->filtered($data);
+
+		$imagePath = $this->saveImage($image);
+
+		$stmt = $this->db->prepare($sql);
+
+		$stmt->bindParam(1, $data['name']);
+		$stmt->bindParam(2, $data['email']);
+		$stmt->bindParam(3, $data['text']);
+		$stmt->bindParam(4, $imagePath);
+
+		$complete = isset($data['complete']) ? 1 : 0;
+		$stmt->bindParam(5, $complete);
+
+		$stmt->execute();
 	}
 
 	private function saveImage($image = null)

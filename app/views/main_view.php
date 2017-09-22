@@ -40,6 +40,13 @@
 				<?php endif ?>
 			</p>
 			<p><?=$task['text']?></p>
+			<?php if (\Helpers\Auth::isLogin() && \Helpers\Auth::isAdmin()): ?>
+				<p class="text-right">
+					<a href="/edit/index?id=<?=$task['id'];?>">
+						Редактировать <i class="glyphicon glyphicon-edit"></i>
+					</a>
+				</p>
+			<?php endif; ?>
 		</div>
 	</div>
 	<hr>
